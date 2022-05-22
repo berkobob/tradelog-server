@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+    mongo:
+        image: mongo:latest
+        ports:
+            - "27017-27019:27017-27019"
+        volumes:
+            - mongo-config:/data/configdb
+            - mongo-db:/data/db
+        container_name: mongo
+        networks: 
+            - tradelog
+        restart: always
+
+    server:
+        build: .
+        image: server:latest
+        ports:
+            - "8888:8888"
+            - "8443:8443"
+        environment:
+            - databaseUrl=mongodb://mongo:27017/
+            - databaseName=production
+            - port=8888
+        container_name: tradelog
+        networks: 
+            - tradelog
+        restart: always
+        depends_on:
+            - "mongo"
+
+volumes:
+    mongo-config:
+    mongo-db:
+
+networks:
+    tradelog:
