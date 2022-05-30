@@ -40,4 +40,5 @@ void main(List<String> args) async {
   await GetIt.I.isReady<DatabaseService>();
   await GetIt.I.get<DatabaseService>().drop();
   print('${DateTime.now()} - ${red('WARN')} - Database dropped.');
+  // TODO: Checkout the difference between sending back an error vs a trade
 }

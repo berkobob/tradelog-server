@@ -16,22 +16,22 @@ class Trade extends BaseModel<Trade> {
     return result == null ? null : Trade.fromJson(result);
   }
 
-  late DateTime date;
-  late String bos;
-  late String symbol;
-  late String stock;
+  DateTime date;
+  String bos;
+  String symbol;
+  String stock;
   DateTime? expiry;
   double? strike;
   String? poc;
-  late double price;
-  late String asset;
+  double price;
+  String asset;
   String? ooc;
-  late int multiplier;
+  int multiplier;
   String? notes;
   String? tradeid;
   String? currency;
   double? fx;
-  late String description;
+  String description;
 
   Trade.fromJson(Json json)
       : date = json['date'],

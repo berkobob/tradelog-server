@@ -2,10 +2,10 @@
 A RESTful API written in dart to host stock and option trades as well as record dividends.
 
 ## Data Model
-A. Trade
-B. Position
-C. Stock
-D. Portfolio
++ Trade
++ Position
++ Stock
++ Portfolio
 
 Parameters in order of priority
 1. command line argument

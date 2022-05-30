@@ -1,20 +1,22 @@
 import 'package:alfred/alfred.dart';
+import 'package:server/models/trade.dart';
 
-import '../../models/trade.dart';
-import '../reply.dart';
 import 'base_route.dart';
 
 class TradeRoute extends BaseRoute {
   TradeRoute(super.route);
 
   @override
-  Future<Reply> get(HttpRequest request, HttpResponse response) async => Reply(
-      msg: (await Trade.find({})).map((trade) => trade.response).toList());
+  Future<Json> get(HttpRequest request, HttpResponse response) async => {
+        'msg': (await Trade.find(query(request.uri.queryParametersAll)))
+            .map((trade) => trade.response)
+            .toList()
+      };
 
   @override
-  Future<Reply> post(HttpRequest request, HttpResponse response) async {
+  Future<Json> post(HttpRequest request, HttpResponse response) async {
     final body = await request.body as Json;
     final response = await logController.trade(body);
-    return Reply(ok: response.keys.contains('trade'), msg: response);
+    return {'ok': response.keys.contains('trade'), 'msg': response};
   }
 }

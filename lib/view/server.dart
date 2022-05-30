@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:alfred/alfred.dart';
 import 'package:dcli/dcli.dart';
 
-import 'reply.dart';
 import 'routes/portfolio_route.dart';
 import 'routes/position_route.dart';
 import 'routes/stock_route.dart';
@@ -12,21 +11,19 @@ import 'routes/trade_route.dart';
 import '../constants.dart' as k;
 
 class Server {
-  final app = Alfred(logLevel: LogType.warn);
+  final app = Alfred(logLevel: LogType.debug);
   int port;
 
   Server({this.port = k.port}) {
     app.onNotFound = notFoundHandler;
     app.onInternalError = internalErrorHandler;
-    app.typeHandlers.add(replyTypeHander());
 
     TradeRoute(app.route('trades'));
     PositionRoute(app.route('positions'));
     StockRoute(app.route('stocks'));
     PortfolioRoute(app.route('portfolios'));
 
-    app.get(
-        '/', (req, res) => Reply(msg: 'Trade Log Server up and running...'));
+    app.get('/', (req, res) => {'ok': true});
   }
 
   Future<Server> start() async {
@@ -39,16 +36,21 @@ class Server {
   Future<void> close() async => await app.close();
 
   FutureOr notFoundHandler(HttpRequest request, HttpResponse response) =>
-      Reply(ok: false, msg: 'Not found', statusCode: 404);
+      {'ok': false, 'msg': 'Not found'};
 
   FutureOr internalErrorHandler(HttpRequest request, HttpResponse response) =>
-      Reply(ok: false, msg: 'Internal error', statusCode: 500);
+      {'ok': false, 'msg': 'Internal error'};
 
-  TypeHandler<dynamic> replyTypeHander() =>
-      TypeHandler<Reply>((req, res, Reply reply) async {
-        res.statusCode = reply.statusCode;
-        res.headers.contentType = ContentType.json;
-        res.json(reply.response);
-        await res.close();
-      });
+  // TypeHandler<Reply> replyTypeHander() =>
+  //     TypeHandler<Reply>((req, res, Reply reply) async {
+  //       print('HAPPENING!!! HAPPENING!!!');
+  //       res.statusCode = reply.statusCode;
+  //       // res.headers.contentType = ContentType.json;
+  //       final result = await res.json(reply.response);
+  //       if (result.statusCode != HttpStatus.ok) {
+  //         print('${DateTime.now()} - ${red('ERR!')} - Failed to send response'
+  //             ' because ${result.reasonPhrase}');
+  //       }
+  //       await res.close();
+  //     });
 }

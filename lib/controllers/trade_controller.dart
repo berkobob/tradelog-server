@@ -187,8 +187,7 @@ Json newTrade(Json json) {
         trade['risk'] =
             trade['quantity'] * trade['multiplier'] * trade['strike'];
       } else {
-        // Short stock or call
-        trade['risk'] = double.infinity;
+        trade['risk'] = aLargeNum;
       }
     } else {
       json['risk'] = 'ERROR: Quantity is zero or missing';

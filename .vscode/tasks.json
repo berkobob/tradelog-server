@@ -1,0 +1,28 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    // container run --rm -p 27017-27019:27017-27019 --volume server_mongo-config:/data/configdb --volume server_mongo-db:/data/db --name mongo mongo:4.4
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "mongo",
+            "type": "shell",
+            "command": "docker",
+            "args": [
+                "container", "run",
+                "--rm",
+                "--detach",
+                "-p",
+                "27017-27019:27017-27019",
+                "--volume",
+                "server_mongo-config:/data/configdb",
+                "--volume",
+                "server_mongo-db:/data/db",
+                "--name",
+                "mongo",
+                "mongo:4.4"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}

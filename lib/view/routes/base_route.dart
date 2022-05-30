@@ -2,8 +2,8 @@ import 'package:alfred/alfred.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../controllers/log_controller.dart';
-import '../reply.dart';
 
+import '../../constants.dart';
 export '../../constants.dart';
 
 abstract class BaseRoute {
@@ -15,7 +15,15 @@ abstract class BaseRoute {
     _route.post('/', post);
   }
 
-  Future<Reply> get(HttpRequest request, HttpResponse response);
-  Future<Reply> post(HttpRequest request, HttpResponse response) async =>
-      await Future.value(Reply(msg: 'No posting', statusCode: 401));
+  Future<Json> get(HttpRequest request, HttpResponse response);
+  Future<Json> post(HttpRequest request, HttpResponse response) async =>
+      await Future.value({'msg': 'No posting'});
+
+  Json query(Map<String, List<String>> parms) {
+    final query = <String, dynamic>{};
+    parms.forEach((key, value) => value.join().isNotEmpty
+        ? query[key] = num.tryParse(value.join()) ?? value.join()
+        : null);
+    return query;
+  }
 }

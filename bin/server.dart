@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dcli/dcli.dart';
-import 'package:server/server.dart' as server;
+import 'package:server/server.dart';
 
 void main(List<String> args) {
   var parser = ArgParser();
@@ -15,5 +15,5 @@ void main(List<String> args) {
   final String? database = settings['database'];
   final String? url = settings['url'];
 
-  server.init(port: port, database: database, url: url);
+  init(port: port, database: database, url: url);
 }
