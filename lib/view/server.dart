@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:alfred/alfred.dart';
 import 'package:dcli/dcli.dart';
@@ -11,7 +10,7 @@ import 'routes/trade_route.dart';
 import '../constants.dart' as k;
 
 class Server {
-  final app = Alfred(logLevel: LogType.debug);
+  final app = Alfred(logLevel: LogType.info);
   int port;
 
   Server({this.port = k.port}) {
@@ -40,17 +39,4 @@ class Server {
 
   FutureOr internalErrorHandler(HttpRequest request, HttpResponse response) =>
       {'ok': false, 'msg': 'Internal error'};
-
-  // TypeHandler<Reply> replyTypeHander() =>
-  //     TypeHandler<Reply>((req, res, Reply reply) async {
-  //       print('HAPPENING!!! HAPPENING!!!');
-  //       res.statusCode = reply.statusCode;
-  //       // res.headers.contentType = ContentType.json;
-  //       final result = await res.json(reply.response);
-  //       if (result.statusCode != HttpStatus.ok) {
-  //         print('${DateTime.now()} - ${red('ERR!')} - Failed to send response'
-  //             ' because ${result.reasonPhrase}');
-  //       }
-  //       await res.close();
-  //     });
 }

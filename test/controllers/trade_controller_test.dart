@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:server/controllers/trade_controller.dart';
-import 'package:server/models/base_model.dart';
 import 'package:server/models/trade.dart';
 import 'package:test/test.dart';
 
@@ -250,6 +249,6 @@ main() {
     test('Exchange rate is 0.7378', () => expect(trade?.fx, equals(0.7378)));
     test('Description contains Activision',
         () => expect(trade?.description, contains('ACTIVISION')));
-    test('Risk is large', () => expect(trade?.risk, equals(aLargeNum)));
+    test('Risk is large', () => expect(trade?.risk, equals(0)));
   });
 }

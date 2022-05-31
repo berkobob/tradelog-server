@@ -21,9 +21,18 @@ abstract class BaseRoute {
 
   Json query(Map<String, List<String>> parms) {
     final query = <String, dynamic>{};
-    parms.forEach((key, value) => value.join().isNotEmpty
-        ? query[key] = num.tryParse(value.join()) ?? value.join()
-        : null);
+    parms.forEach((key, value) {
+      final val = value.join();
+      if (val.isNotEmpty) {
+        if (val[0] == '<') {
+          query[key] = {r'$lt': num.parse(val.substring(1))};
+        } else if (val[0] == '>') {
+          query[key] = {r'$gt': num.parse(val.substring(1))};
+        } else {
+          query[key] = num.tryParse(val) ?? val;
+        }
+      }
+    });
     return query;
   }
 }

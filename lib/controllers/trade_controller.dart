@@ -170,36 +170,36 @@ Json newTrade(Json json) {
     }
   }
 
+  // Quanity not zero
+  if (trade['quantity'] == 0) {
+    json['risk'] = 'ERROR: Quantity is zero or missing';
+    error = true;
+  }
+
+  // Return any errors
+  if (error) return {'success': false, 'errors': json};
+
   // Risk
-  if (!error) {
-    if (trade['quantity'] > 0) {
-      // Long
-      if (trade['asset'] == 'OPT' && trade['notes'].contains('C')) {
-        trade['risk'] =
-            trade['quantity'] * trade['multiplier'] * trade['strike'];
-      } else {
-        trade['risk'] = trade['cash'];
-      }
-    } else if (trade['quantity'] < 0) {
-      // Short
-      if (trade['asset'] == 'OPT' && trade['poc'] == 'P') {
-        // Short put trade
-        trade['risk'] =
-            trade['quantity'] * trade['multiplier'] * trade['strike'];
-      } else {
-        trade['risk'] = aLargeNum;
-      }
+  if (trade['quantity'] > 0) {
+    // Long
+    if (trade['asset'] == 'OPT' && trade['notes'].contains('C')) {
+      trade['risk'] = trade['quantity'] * trade['multiplier'] * trade['strike'];
     } else {
-      json['risk'] = 'ERROR: Quantity is zero or missing';
-      error = true;
+      trade['risk'] = trade['cash'];
+    }
+  } else if (trade['quantity'] < 0) {
+    // Short
+    if (trade['asset'] == 'OPT' && trade['poc'] == 'P') {
+      // Short put trade
+      trade['risk'] = trade['quantity'] * trade['multiplier'] * trade['strike'];
+    } else {
+      // Short stock or short call
+      trade['risk'] = 0.0; // aLargeNum;
     }
   }
 
   // Description
   trade['description'] = json['Description'] ?? '';
-
   trade['portfolio'] = json['Portfolio'] ?? '';
-
-  if (error) return {'success': false, 'errors': json};
   return {'success': true, 'trade': Trade.fromJson(trade)};
 }

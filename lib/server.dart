@@ -36,9 +36,8 @@ void main(List<String> args) async {
 
   init(port: port, database: database, url: url);
 
-  // for dev
+  // for dev only as drops database
   await GetIt.I.isReady<DatabaseService>();
   await GetIt.I.get<DatabaseService>().drop();
   print('${DateTime.now()} - ${red('WARN')} - Database dropped.');
-  // TODO: Checkout the difference between sending back an error vs a trade
 }

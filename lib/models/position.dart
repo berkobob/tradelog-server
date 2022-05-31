@@ -25,6 +25,7 @@ class Position extends BaseModel<Position> {
   DateTime? closed;
   List<dynamic> trades = [];
   int? days;
+  String asset;
 
   bool get isClosed => closed != null;
 
@@ -37,6 +38,7 @@ class Position extends BaseModel<Position> {
         closed = json['closed'],
         trades = json['trades'],
         days = json['days'],
+        asset = json['asset'],
         super.fromJson(json);
 
   @override
@@ -56,5 +58,6 @@ class Position extends BaseModel<Position> {
         'closed': closed,
         'trades': trades,
         'days': days,
+        'asset': asset,
       };
 }

@@ -4,6 +4,7 @@ import 'trade_controller.dart';
 
 class LogController {
   Future<Json> trade(Json json) async {
+    num profit = 0.0;
     //
     // Process trade
     //
@@ -23,6 +24,7 @@ class LogController {
         position.days = position.closed!.difference(position.open).inDays;
         trade.risk = position.risk * -1;
         trade.update({'risk': trade.risk});
+        profit = position.proceeds;
       }
       position = position + trade;
       position.trades.add(trade.id);
@@ -33,7 +35,8 @@ class LogController {
           '_id': null,
           'trades': [trade.id],
           'open': trade.date,
-          'risk': trade.risk
+          'risk': trade.risk,
+          'asset': trade.asset,
         }));
     }
 
@@ -51,6 +54,7 @@ class LogController {
           // Existing position now closed
           stock.open.remove(position.id);
           stock.closed.add(position.id);
+          stock.profit += profit;
         }
       } else {
         // New position
@@ -65,6 +69,7 @@ class LogController {
           'open': [position.id],
           'closed': <dynamic>[],
           'quantity': 1,
+          'profit': profit,
         }));
     }
     stock.save();
@@ -85,8 +90,10 @@ class LogController {
         ..addAll({
           '_id': null,
           'stocks': [stock.stock],
+          'profit': profit,
         }));
     }
+    portfolio.profit += profit;
     portfolio.save();
 
     return {

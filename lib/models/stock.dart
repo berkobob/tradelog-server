@@ -20,6 +20,7 @@ class Stock extends BaseModel<Stock> {
   List<dynamic> open = [];
   List<dynamic> closed = [];
   String? currency;
+  num profit;
 
   @override
   int get quantity => open.length + closed.length;
@@ -29,6 +30,7 @@ class Stock extends BaseModel<Stock> {
         open = json['open'],
         closed = json['closed'],
         currency = json['currency'],
+        profit = json['profit'],
         super.fromJson(json);
 
   @override
@@ -43,6 +45,7 @@ class Stock extends BaseModel<Stock> {
         'cash': cash,
         'risk': risk,
         'currency': currency,
-        'quantity': quantity
+        'quantity': quantity,
+        'profit': profit,
       };
 }

@@ -19,6 +19,7 @@ class Portfolio extends BaseModel<Portfolio> {
 
   Set<dynamic> stocks = {};
   String? currency;
+  num profit;
 
   @override
   int get quantity => stocks.length;
@@ -26,6 +27,7 @@ class Portfolio extends BaseModel<Portfolio> {
   Portfolio.fromJson(Json json)
       : stocks = json['stocks'].toSet(),
         currency = json['currency'],
+        profit = json['profit'],
         super.fromJson(json);
 
   @override
@@ -38,6 +40,7 @@ class Portfolio extends BaseModel<Portfolio> {
         'cash': cash,
         'risk': risk,
         'currency': currency,
-        'quantity': quantity
+        'quantity': quantity,
+        'profit': profit,
       };
 }
