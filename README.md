@@ -11,3 +11,14 @@ Parameters in order of priority
 1. command line argument
 2. environment variable
 3. constants files
+
+            
+LONG        OPEN    CLOSE
+ STOCK      cash    -cash
+ CALL       cash    -cash
+ PUT        cash    -cash
+
+SHORT       OPEN    CLOSE
+  STOCK     infin   -infin
+  CALL      infin   -infin  
+  PUT       calc    -calc

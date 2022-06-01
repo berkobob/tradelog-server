@@ -25,7 +25,7 @@ class Trade extends BaseModel<Trade> {
   String? poc;
   double price;
   String asset;
-  String? ooc;
+  String ooc;
   int multiplier;
   String? notes;
   String? tradeid;

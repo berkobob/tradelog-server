@@ -24,9 +24,10 @@ class LogController {
         position.days = position.closed!.difference(position.open).inDays;
         trade.risk = position.risk * -1;
         trade.update({'risk': trade.risk});
-        profit = position.proceeds;
+        // profit = position.proceeds;
       }
       position = position + trade;
+      if (position.isClosed) profit = position.proceeds;
       position.trades.add(trade.id);
     } else {
       // New position
@@ -39,7 +40,7 @@ class LogController {
           'asset': trade.asset,
         }));
     }
-
+    print(profit);
     position.save();
 
     //

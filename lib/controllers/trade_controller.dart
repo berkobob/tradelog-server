@@ -142,6 +142,11 @@ Json newTrade(Json json) {
 
   // Open or Close flag
   trade['ooc'] = json['Open/CloseIndicator'];
+  trade['ooc'] ??= json['Code'].contains('O')
+      ? 'O'
+      : json['Code'].contains('C')
+          ? 'C'
+          : null;
 
   // Multiplier
   try {
