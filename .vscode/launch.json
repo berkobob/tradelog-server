@@ -8,7 +8,7 @@
             "name": "server",
             "request": "launch",
             "type": "dart",
-            "program": "lib/server.dart",
+            "program": "bin/server.dart",
             "env": {
                 "databaseUrl": "mongodb://localhost:27017/",
                 "databaseName": "dev",

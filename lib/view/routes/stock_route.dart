@@ -8,7 +8,7 @@ class StockRoute extends BaseRoute {
 
   @override
   Future<Json> get(HttpRequest request, HttpResponse response) async => {
-        'msg': (await Stock.find(query(request.uri.queryParametersAll)))
+        'stocks': (await Stock.find(query(request.uri.queryParametersAll)))
             .map((stock) => stock.response)
             .toList()
       };

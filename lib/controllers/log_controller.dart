@@ -40,7 +40,6 @@ class LogController {
           'asset': trade.asset,
         }));
     }
-    print(profit);
     position.save();
 
     //

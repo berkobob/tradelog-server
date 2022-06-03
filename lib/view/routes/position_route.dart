@@ -8,8 +8,9 @@ class PositionRoute extends BaseRoute {
 
   @override
   Future<Json> get(HttpRequest request, HttpResponse response) async => {
-        'msg': (await Position.find(query(request.uri.queryParametersAll)))
-            .map((position) => position.response)
-            .toList()
+        'positions':
+            (await Position.find(query(request.uri.queryParametersAll)))
+                .map((position) => position.response)
+                .toList()
       };
 }

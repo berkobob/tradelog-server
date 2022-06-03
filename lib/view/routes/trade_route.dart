@@ -8,7 +8,7 @@ class TradeRoute extends BaseRoute {
 
   @override
   Future<Json> get(HttpRequest request, HttpResponse response) async => {
-        'msg': (await Trade.find(query(request.uri.queryParametersAll)))
+        'trades': (await Trade.find(query(request.uri.queryParametersAll)))
             .map((trade) => trade.response)
             .toList()
       };

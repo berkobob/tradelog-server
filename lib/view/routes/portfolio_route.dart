@@ -8,8 +8,9 @@ class PortfolioRoute extends BaseRoute {
 
   @override
   Future<Json> get(HttpRequest request, HttpResponse response) async => {
-        'msg': (await Portfolio.find(query(request.uri.queryParametersAll)))
-            .map((portfolio) => portfolio.response)
-            .toList()
+        'portfolios':
+            (await Portfolio.find(query(request.uri.queryParametersAll)))
+                .map((portfolio) => portfolio.response)
+                .toList()
       };
 }

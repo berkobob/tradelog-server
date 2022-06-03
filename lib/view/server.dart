@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:alfred/alfred.dart';
 import 'package:dcli/dcli.dart';
 
+import 'routes/dividend_route.dart';
 import 'routes/portfolio_route.dart';
 import 'routes/position_route.dart';
 import 'routes/stock_route.dart';
@@ -21,6 +22,7 @@ class Server {
     PositionRoute(app.route('positions'));
     StockRoute(app.route('stocks'));
     PortfolioRoute(app.route('portfolios'));
+    DividendRoute(app.route('dividends'));
 
     app.get('/', (req, res) => {'ok': true});
   }
