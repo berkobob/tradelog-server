@@ -27,7 +27,7 @@ class Position extends BaseModel<Position> {
   int? days;
   String asset;
 
-  bool get isClosed => closed != null;
+  bool get isClosed => quantity == 0;
 
   Position.fromJson(Json json)
       : stock = json['stock'],

@@ -15,20 +15,21 @@ class LogController {
     //
     // Process position
     //
-    Position? position = await Position.findOne({'symbol': trade.symbol});
+    Position? position =
+        await Position.findOne({'symbol': trade.symbol, 'days': null});
     if (position != null) {
       // Position exists
-      if (position.quantity + trade.quantity == 0) {
+      final risk = position.risk * -1;
+      position += trade;
+      position.trades.add(trade.id);
+      if (position.isClosed) {
         // Close position
         position.closed = trade.date;
         position.days = position.closed!.difference(position.open).inDays;
-        trade.risk = position.risk * -1;
-        trade.update({'risk': trade.risk});
-        // profit = position.proceeds;
+        trade.risk = risk; // to calculate stock * port risk
+        trade.update({'risk': risk});
+        profit = position.proceeds;
       }
-      position = position + trade;
-      if (position.isClosed) profit = position.proceeds;
-      position.trades.add(trade.id);
     } else {
       // New position
       position = Position.fromJson(trade.toJson()
@@ -84,6 +85,7 @@ class LogController {
       // Existing portfolio
       portfolio.stocks.add(stock.stock);
       portfolio += trade;
+      portfolio.profit += profit;
     } else {
       // New portfolio
       portfolio = Portfolio.fromJson(trade.toJson()
@@ -93,7 +95,6 @@ class LogController {
           'profit': profit,
         }));
     }
-    portfolio.profit += profit;
     portfolio.save();
 
     return {

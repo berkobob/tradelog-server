@@ -1,6 +1,5 @@
 import '../constants.dart';
-import '../models/dividend.dart';
-import '../models/stock.dart';
+import '../models/models.dart';
 
 Json dividend(Json json) {
   bool error = false;
@@ -35,13 +34,16 @@ Json dividend(Json json) {
     json['amount'] = (json['Amount'] ?? 'Amount missing') + ' - ERROR $e';
   }
 
-  json['portfolio'] = json['Portfolio'] ?? '';
+  json['portfolio'] = json['Portfolio'];
 
   if (error) return {'success': false, 'msg': json};
 
   final dividend = Dividend.fromJson(json)..save();
   Stock.findOne({'stock': dividend.symbol}).then((stock) {
     stock?.update({'dividends': stock.dividends += dividend.cash});
+  });
+  Portfolio.findOne({'portfolio': dividend.portfolio}).then((port) {
+    port?.update({'dividends': port.dividends += dividend.cash});
   });
 
   return {'success': true, 'dividends': dividend.response};

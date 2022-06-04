@@ -23,5 +23,4 @@ SHORT       OPEN    CLOSE
   CALL      infin   -infin  
   PUT       calc    -calc
 
-  #TODO Fix portfolio profit
   #TODO check sums

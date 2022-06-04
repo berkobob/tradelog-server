@@ -11,7 +11,7 @@
             "program": "bin/server.dart",
             "env": {
                 "databaseUrl": "mongodb://localhost:27017/",
-                "databaseName": "dev",
+                "databaseName": "test",
                 // "port": 4321
             },
             "args": [
