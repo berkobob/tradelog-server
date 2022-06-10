@@ -15,14 +15,21 @@ class LogController {
     //
     // Process position
     //
-    num? risk;
-    Position? position = await Position.findOne(
-        {'symbol': trade.symbol, 'days': null, 'portfolio': trade.portfolio});
+    Position? position =
+        await Position.findOne({'symbol': trade.symbol, 'days': null});
     if (position != null) {
       // Position exists
-      risk = position.risk * -1;
+      final risk = position.risk * -1;
       position += trade;
       position.trades.add(trade.id);
+      if (position.isClosed) {
+        // Close position
+        position.closed = trade.date;
+        position.days = position.closed!.difference(position.open).inDays;
+        trade.risk = risk; // to calculate stock * port risk
+        trade.update({'risk': risk});
+        profit = position.proceeds;
+      }
     } else {
       // New position
       position = Position.fromJson(trade.toJson()
@@ -36,24 +43,21 @@ class LogController {
     }
     position.save();
 
-    if (position.isClosed) {
-      // Close position
-      position.closed = trade.date;
-      position.days = position.closed!.difference(position.open).inDays;
-      trade.risk = risk ?? trade.risk; // to calculate stock * port risk
-      // trade.update({'risk': trade.risk});
-      position.save();
-      profit = position.proceeds;
-    }
-
     //
     // Process stock
     //
-    Stock? stock = await Stock.findOne(
-        {'stock': trade.stock, 'portfolio': trade.portfolio});
+    Stock? stock = await Stock.findOne({'stock': trade.stock});
     if (stock != null) {
       // Existing stock
-      if (!stock.open.contains(position.id)) {
+      if (stock.open.contains(position.id)) {
+        // Existing position
+        if (position.isClosed) {
+          // Existing position now closed
+          stock.open.remove(position.id);
+          stock.closed.add(position.id);
+          stock.profit += profit;
+        }
+      } else {
         // New position
         stock.open.add(position.id);
       }
@@ -68,12 +72,6 @@ class LogController {
           'quantity': 1,
           'profit': profit,
         }));
-    }
-    if (position.isClosed) {
-      // Existing position now closed
-      stock.open.remove(position.id);
-      stock.closed.add(position.id);
-      stock.profit += profit;
     }
     stock.save();
 

@@ -15,7 +15,8 @@ final errorTrade = {
   "Multiplier": "poo",
   "Code": "poo",
   "CurrencyPrimary": "poo",
-  "Symbol": "poo"
+  "Symbol": "poo",
+  "Portfolio": "test"
 };
 
 final validOptionTrade = {
@@ -35,7 +36,8 @@ final validOptionTrade = {
   "Multiplier": "1000",
   "Code": "O",
   "CurrencyPrimary": "GBP",
-  "Symbol": "BP DEC20 1.8 P"
+  "Symbol": "BP DEC20 1.8 P",
+  "Portfolio": "test"
 };
 
 final invalidOptionTrade = {
@@ -55,7 +57,8 @@ final invalidOptionTrade = {
   "Multiplier": "1000",
   "Code": "O",
   "CurrencyPrimary": "GBP",
-  "Symbol": "BP DEC20 1.8 P"
+  "Symbol": "BP DEC20 1.8 P",
+  "Portfolio": "test"
 };
 
 // ignore: non_constant_identifier_names
@@ -76,7 +79,8 @@ final UKOptionTrade = {
   "Multiplier": "1000",
   "Code": "O",
   "CurrencyPrimary": "GBP",
-  "Symbol": "BLC JAN21 4.4 P"
+  "Symbol": "BLC JAN21 4.4 P",
+  "Portfolio": "test"
 };
 
 // ignore: non_constant_identifier_names
@@ -100,7 +104,8 @@ final USStockTrade = {
   "TradeID": "4416707873",
   "CurrencyPrimary": "USD",
   "FXRateToBase": "0.7378",
-  "Description": "ACTIVISION BLIZZARD INC"
+  "Description": "ACTIVISION BLIZZARD INC",
+  "Portfolio": "test",
 };
 
 const openOptionTrade = {
@@ -120,7 +125,8 @@ const openOptionTrade = {
   "Multiplier": "1000",
   "Code": "O",
   "CurrencyPrimary": "GBP",
-  "Symbol": "SAN NOV20 1.8 P"
+  "Symbol": "SAN NOV20 1.8 P",
+  "Portfolio": "test"
 };
 
 const closeOptionTrade = {
@@ -140,7 +146,8 @@ const closeOptionTrade = {
   "Multiplier": "1000",
   "Code": "C;Ep",
   "CurrencyPrimary": "GBP",
-  "Symbol": "SAN NOV20 1.8 P"
+  "Symbol": "SAN NOV20 1.8 P",
+  "Portfolio": "test"
 };
 
 const openUSStockTrade = {
@@ -163,7 +170,8 @@ const openUSStockTrade = {
   "TradeID": "4416622310",
   "CurrencyPrimary": "USD",
   "FXRateToBase": "0.7378",
-  "Description": "BUMBLE INC-A"
+  "Description": "BUMBLE INC-A",
+  "Portfolio": "test"
 };
 
 const openULVR = {
@@ -183,7 +191,8 @@ const openULVR = {
   "Multiplier": "1",
   "Code": "O",
   "CurrencyPrimary": "GBP",
-  "Symbol": "ULVR"
+  "Symbol": "ULVR",
+  "Portfolio": "test"
 };
 
 const addULVR = {
@@ -203,7 +212,8 @@ const addULVR = {
   "Multiplier": "1",
   "Code": "O",
   "CurrencyPrimary": "GBP",
-  "Symbol": "ULVR"
+  "Symbol": "ULVR",
+  "Portfolio": "test"
 };
 
 const closeULVR = {
@@ -223,7 +233,8 @@ const closeULVR = {
   "Multiplier": "1",
   "Code": "O",
   "CurrencyPrimary": "GBP",
-  "Symbol": "ULVR"
+  "Symbol": "ULVR",
+  "Portfolio": "test"
 };
 
 const openGSK = {
@@ -243,7 +254,8 @@ const openGSK = {
   "Multiplier": "1000",
   "Code": "O",
   "CurrencyPrimary": "GBP",
-  "Symbol": "GXO FEB21 13 P"
+  "Symbol": "GXO FEB21 13 P",
+  "Portfolio": "test"
 };
 
 const addGSK = {
@@ -263,7 +275,8 @@ const addGSK = {
   "Multiplier": "1000",
   "Code": "O",
   "CurrencyPrimary": "GBP",
-  "Symbol": "GXO FEB21 13 P"
+  "Symbol": "GXO FEB21 13 P",
+  "Portfolio": "test"
 };
 
 const closeGSK = {
@@ -283,5 +296,6 @@ const closeGSK = {
   "Multiplier": "1000",
   "Code": "C;Ep",
   "CurrencyPrimary": "GBP",
-  "Symbol": "GXO FEB21 13 P"
+  "Symbol": "GXO FEB21 13 P",
+  "Portfolio": "test"
 };

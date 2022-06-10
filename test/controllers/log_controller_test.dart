@@ -89,7 +89,8 @@ main() {
     });
 
     group(' - PORTFOLIO - ', () {
-      test('Portfolio is test', () => expect(portfolio?.portfolio, equals('')));
+      test('Portfolio is test',
+          () => expect(portfolio?.portfolio, equals('test')));
       test('Portfolio contains SBRY',
           () => expect(portfolio?.stocks, contains('SBRY')));
       test('Proceeds are 25', () => expect(portfolio?.proceeds, equals(25)));
@@ -164,7 +165,8 @@ main() {
     });
 
     group(' - PORTFOLIO - ', () {
-      test('Portfolio exists', () => expect(portfolio?.portfolio, equals('')));
+      test('Portfolio exists',
+          () => expect(portfolio?.portfolio, equals('test')));
       test('Portfolio contains SBRY',
           () => expect(portfolio?.stocks, contains('SBRY')));
       test('Proceeds are 24', () => expect(portfolio?.proceeds, equals(25)));

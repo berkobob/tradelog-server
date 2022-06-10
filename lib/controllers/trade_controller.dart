@@ -15,17 +15,24 @@ Json newTrade(Json json) {
   }
 
   // Buy or Sell
-  if (['BUY', 'SELL'].contains(json['Buy/Sell'])) {
-    trade['bos'] = json['Buy/Sell'];
+  // if (['BUY', 'SELL'].contains(json['Buy/Sell'].substring(0, 3))) {
+  if (json.keys.contains('Buy/Sell')) {
+    if (json['Buy/Sell'].contains('BUY')) {
+      trade['bos'] = 'BUY';
+    } else if (json['Buy/Sell'].contains('SELL')) {
+      trade['bos'] = 'SELL';
+    } else {
+      json['Buy/Sell'] =
+          json['Buy/Sell'] + ' - ERROR: Must be either BUY or SELL';
+      error = true;
+    }
   } else {
-    json['Buy/Sell'] = (json['Buy/Sell'] ?? 'Buy/Sell missing') +
-        ' - ERROR: Must be either BUY or SELL';
-    error = true;
+    json['Buy/Sell'] = 'Buy/Sell missing - ERROR: Must be either BUY or SELL';
   }
 
   // Quantity
   try {
-    trade['quantity'] = int.parse(json['Quantity']);
+    trade['quantity'] = num.parse(json['Quantity']);
   } catch (e) {
     json['Quantity'] =
         (json['Quantity'] ?? 'Quantity missing') + ' - ERROR: $e';
@@ -42,7 +49,14 @@ Json newTrade(Json json) {
   // Stock
   try {
     if (json['UnderlyingSymbol'] == null || json['UnderlyingSymbol'] == '') {
-      trade['stock'] = trade['symbol'].split(' ')[0];
+      trade['stock'] = trade['symbol'].split(' ')[0] as String;
+      if (trade['stock'].length == 4 &&
+          int.tryParse(trade['stock'][3]) != null) {
+        trade['stock'] = trade['stock'].substring(0, 3);
+      } else if (trade['stock'].length == 5 &&
+          int.tryParse(trade['stock'][4]) != null) {
+        trade['stock'] = trade['stock'].substring(0, 4);
+      }
     } else {
       trade['stock'] = json['UnderlyingSymbol'];
     }
@@ -67,7 +81,11 @@ Json newTrade(Json json) {
   if (json['AssetClass'] == 'OPT') {
     // Expiry
     try {
-      trade['expiry'] = DateTime.parse(json['Expiry']);
+      String date = (json['Expiry'].contains('/'))
+          ? '${json['Expiry'].substring(6, 10)}${json['Expiry'].substring(3, 5)}'
+              '${json['Expiry'].substring(0, 2)}'
+          : json['Expiry'];
+      trade['expiry'] = DateTime.parse(date);
     } catch (e) {
       json['Expiry'] = (json['Expiry'] ?? 'Expiry missing') + ' - ERROR: $e';
       error = true;
@@ -170,16 +188,18 @@ Json newTrade(Json json) {
 
   // FX rate to GBP
   try {
-    trade['fx'] = double.parse(json['FXRateToBase']);
+    trade['fx'] = double.tryParse(json['FXRateToBase']);
   } catch (e) {
     if (json.keys.contains('FXRateToBase')) {
       json['FXRateToBase'] += ' - ERROR: $e';
     }
   }
 
-  // Quanity not zero
-  if (trade['quantity'] == 0) {
-    json['risk'] = 'ERROR: Quantity is zero or missing';
+  // Portfolio
+  if (json.keys.contains('Portfolio') && json['Portfolio'] != '') {
+    trade['portfolio'] = json['Portfolio'];
+  } else {
+    json['Portfolio'] = ' - ERROR: Valid portfolio name missing';
     error = true;
   }
 
@@ -203,10 +223,12 @@ Json newTrade(Json json) {
       // Short stock or short call
       trade['risk'] = 0.0; // aLargeNum;
     }
+  } else {
+    trade['risk'] = 0.0;
   }
 
   // Description
   trade['description'] = json['Description'] ?? '';
-  trade['portfolio'] = json['Portfolio'] ?? '';
+
   return {'success': true, 'trade': Trade.fromJson(trade)};
 }

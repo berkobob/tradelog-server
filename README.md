@@ -22,5 +22,3 @@ SHORT       OPEN    CLOSE
   STOCK     infin   -infin
   CALL      infin   -infin  
   PUT       calc    -calc
-
-  #TODO check sums

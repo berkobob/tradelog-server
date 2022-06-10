@@ -119,7 +119,7 @@ main() {
       test('position quantity', () => expect(position?.quantity, isZero));
       test(
           'position proceeds', () => expect(position?.proceeds, equals(56524)));
-      test('position risk', () => expect(position?.risk, isZero));
+      test('position risk', () => expect(position?.risk, equals(-23248)));
       test('position commission',
           () => expect(position?.commission, equals(-72)));
       test('position is closed', () => expect(position?.isClosed, isTrue));

@@ -30,7 +30,7 @@ abstract class BaseModel<T extends BaseModel<T>> {
   double commission;
   double cash;
   double risk;
-  int quantity = 0;
+  num quantity;
 
   BaseModel.fromJson(Json json)
       : id = json['_id'],

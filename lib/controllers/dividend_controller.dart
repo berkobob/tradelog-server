@@ -34,9 +34,18 @@ Json dividend(Json json) {
     json['amount'] = (json['Amount'] ?? 'Amount missing') + ' - ERROR $e';
   }
 
-  json['portfolio'] = json['Portfolio'];
+  // Portfolio
+  if (json.keys.contains('Portfolio') && json['Portfolio'] != '') {
+    json['portfolio'] = json['Portfolio'];
+  } else {
+    json['portfolio'] = ' - ERROR: Valid portfolio name missing';
+    error = true;
+  }
 
-  if (error) return {'success': false, 'msg': json};
+  if (error) {
+    json['date'] = json['date'].toString();
+    return {'success': false, 'msg': json};
+  }
 
   final dividend = Dividend.fromJson(json)..save();
   Stock.findOne({'stock': dividend.symbol}).then((stock) {

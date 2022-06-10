@@ -15,6 +15,7 @@ main() {
 
     setUpAll(() async {
       result = newTrade(validOptionTrade);
+      print(result);
       trade = result['trade'];
     });
 
@@ -216,6 +217,7 @@ main() {
 
     setUpAll(() async {
       final result = newTrade(USStockTrade);
+      print(result);
       trade = result['trade'];
     });
 
