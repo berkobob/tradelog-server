@@ -17,6 +17,7 @@ class Server {
   Server({this.port = k.port}) {
     app.onNotFound = notFoundHandler;
     app.onInternalError = internalErrorHandler;
+    app.all('*', cors(origin: '*'));
 
     TradeRoute(app.route('trades'));
     PositionRoute(app.route('positions'));

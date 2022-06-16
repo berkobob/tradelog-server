@@ -29,6 +29,7 @@ class MongoDB implements DatabaseService {
     } catch (e) {
       print('${DateTime.now()} - ${red('ERR!')} - '
           '${red('failed to connect to $url', bold: true)}');
+      
       rethrow;
     }
     return this;
