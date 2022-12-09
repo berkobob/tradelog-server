@@ -1,7 +1,7 @@
-import 'package:server/services/database_service.dart';
+import 'package:server/services/mongodb.dart';
 import 'package:test/test.dart';
 
-final db = DatabaseService(database: "testdb");
+final db = MongoDB(database: "testdb");
 final coll = 'test';
 
 main() async {
@@ -14,7 +14,7 @@ main() async {
 
   test('Save a document to the database', () async {
     final result = await db.save(coll, {'anInt': 1, 'aString': 'Antoine'});
-    expect(result, isA<ObjectId>());
+    expect(result, isNotNull);
   });
 
   test('Find one document', () async {
@@ -51,7 +51,7 @@ main() async {
     await db.save(coll, {'anInt': 1, 'aString': 'words'});
     await db.save(coll, {'anInt': 2, 'aString': 'Antoine'});
     final doc = await db.findOne(coll, {'anInt': 2});
-    db.delete(coll, doc?['_id'] as ObjectId);
+    db.delete(coll, doc?['_id']);
     final results = await db.find(coll, {});
     expect(results.length, equals(3));
   });

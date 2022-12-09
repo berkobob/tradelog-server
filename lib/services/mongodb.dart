@@ -1,35 +1,29 @@
-import 'dart:io';
-
-import 'package:dcli/dcli.dart';
+import 'package:logger/logger.dart';
 import 'package:mongo_dart/mongo_dart.dart';
-export 'package:mongo_dart/mongo_dart.dart' show ObjectId;
 
 import 'database_service.dart';
 
 class MongoDB implements DatabaseService {
-  late Db db;
-  late String url;
-  late String database;
+  final log = Logger();
 
-  MongoDB({url, database}) {
-    this.url = url ?? Platform.environment['databaseUrl'] ?? databaseUrl;
-    this.database =
-        database ?? Platform.environment['databaseName'] ?? databaseName;
-  }
+  late Db db;
+  final String _url;
+  final String _database;
+
+  MongoDB({url, database})
+      : _url = url ?? 'mongodb://localhost:27017/',
+        _database = database ?? 'production';
 
   @override
   Future<DatabaseService> open() async {
-    print('${DateTime.now()} - ${yellow('info')} '
-        '- Attempting to connect to: ${green('$url$database', bold: true)}');
-    db = await Db.create(url + database);
+    log.i('${DateTime.now()} - Attempting to connect to: $_url$_database');
+    db = await Db.create(_url + _database);
     try {
       await db.open();
-      print('${DateTime.now()} - ${yellow('info')} - Successfully connected to'
-          ' database: ${green(db.databaseName!, bold: true)}.');
+      log.i(
+          '${DateTime.now()} - Successfully connected to database: ${db.databaseName}.');
     } catch (e) {
-      print('${DateTime.now()} - ${red('ERR!')} - '
-          '${red('failed to connect to $url', bold: true)}');
-      
+      log.i('${DateTime.now()} - failed to connect to $_url');
       rethrow;
     }
     return this;
@@ -37,7 +31,7 @@ class MongoDB implements DatabaseService {
 
   @override
   Future close() async {
-    db.close();
+    await db.close();
   }
 
   @override
@@ -64,14 +58,15 @@ class MongoDB implements DatabaseService {
   }
 
   @override
-  Future<void> delete(String collection, dynamic id) async {
+  Future<void> delete(String collection, covariant ObjectId id) async {
     final coll = db.collection(collection);
     final result = await coll.remove({'_id': id});
     if (result['n'] != 1) throw 'Failed to delete $id from $collection';
   }
 
   @override
-  Future<void> update(String collection, dynamic id, Json query) async {
+  Future<void> update(
+      String collection, covariant ObjectId id, Json query) async {
     final coll = db.collection(collection);
     final result = await coll.updateOne({'_id': id}, {r'$set': query});
     if (result.success) return;
@@ -79,7 +74,7 @@ class MongoDB implements DatabaseService {
   }
 
   @override
-  Future<Json?> findById(String collection, id) async {
+  Future<Json?> findById(String collection, covariant ObjectId id) async {
     final coll = db.collection(collection);
     return await coll.findOne({'_id': id});
   }

@@ -1,20 +1,21 @@
 import 'package:get_it/get_it.dart';
-import 'package:server/controllers/log_controller.dart';
+import 'package:server/controllers/controller.dart';
 import 'package:server/models/models.dart';
 import 'package:server/services/database_service.dart';
+import 'package:server/services/mongodb.dart';
 import 'package:test/test.dart';
 
 import 'trade_data.dart';
 
 main() {
-  LogController log = LogController();
+  Controller log = Controller();
 
   setUpAll(() async {
-    final db = await DatabaseService(database: "testdb").open();
+    final db = await MongoDB(database: "testdb").open();
     (await db.drop()).close();
 
     GetIt.I.registerSingletonAsync<DatabaseService>(
-        () async => await DatabaseService(database: "testdb").open());
+        () async => await MongoDB(database: "testdb").open());
     await GetIt.I.allReady();
   });
 

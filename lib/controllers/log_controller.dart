@@ -1,8 +1,6 @@
-import '../constants.dart';
-import '../models/models.dart';
-import 'trade_controller.dart';
+part of 'controller.dart';
 
-class LogController {
+extension LogControllerExtension on Controller {
   Future<Json> trade(Json json) async {
     num profit = 0.0;
     //

@@ -1,27 +1,26 @@
-import 'dart:convert';
-
 import 'package:get_it/get_it.dart';
 
 import '../services/database_service.dart';
 
-export '../constants.dart';
+typedef Json = Map<String, dynamic>;
 
 abstract class BaseModel<T extends BaseModel<T>> {
+  static final DatabaseService db = GetIt.I.get<DatabaseService>();
+
   static Future<Json?> findOne(
       {required String collection, required Json query}) async {
-    final result =
-        await GetIt.I.get<DatabaseService>().findOne(collection, query);
+    final result = await db.findOne(collection, query);
     return result;
   }
 
   static Future<List<Json>> find(
       {required String collection, required Json query}) async {
-    return await GetIt.I.get<DatabaseService>().find(collection, query);
+    return await db.find(collection, query);
   }
 
   static Future<Json?> findById(
-          {required String collection, required ObjectId id}) async =>
-      await GetIt.I.get<DatabaseService>().findById(collection, id);
+          {required String collection, required dynamic id}) async =>
+      await db.findById(collection, id);
 
   String get collection => '${T.toString().toLowerCase()}s';
   dynamic id;
@@ -45,25 +44,23 @@ abstract class BaseModel<T extends BaseModel<T>> {
 
   Future<T> save() async {
     if (id == null) {
-      id = await GetIt.I.get<DatabaseService>().save(collection, toJson());
+      id = await db.save(collection, toJson());
     } else {
-      await GetIt.I.get<DatabaseService>().update(collection, id, toJson());
+      await db.update(collection, id, toJson());
     }
+
     return this as T;
   }
 
   Future<T> delete() async {
-    await GetIt.I.get<DatabaseService>().delete(collection, id);
+    await db.delete(collection, id);
     return this as T;
   }
 
   Future<T> update(Json json) async {
-    await GetIt.I.get<DatabaseService>().update(collection, id, json);
+    await db.update(collection, id, json);
     return this as T;
   }
-
-  @override
-  String toString() => json.encode(toJson(), toEncodable: toEncodable);
 
   T operator +(BaseModel other) {
     proceeds += other.proceeds;
@@ -81,10 +78,4 @@ abstract class BaseModel<T extends BaseModel<T>> {
     });
     return json;
   }
-}
-
-dynamic toEncodable(item) {
-  if (item is DateTime) return item.toString();
-  if (item is double) return item.toString();
-  return item.toJson();
 }

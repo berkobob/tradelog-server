@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
-import 'package:server/controllers/dividend_controller.dart';
+import 'package:server/controllers/controller.dart';
 import 'package:server/services/database_service.dart';
+import 'package:server/services/mongodb.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -17,12 +18,12 @@ main() {
 
     setUpAll(() async {
       GetIt.I.registerSingletonAsync<DatabaseService>(
-          () async => await DatabaseService(database: "testdb").open());
+          () async => await MongoDB(database: "testdb").open());
       await GetIt.I.allReady();
     });
 
     test('Expect commission to be processed succesfully', () {
-      result = dividend(data);
+      result = Controller().dividend(data);
       final divi = result['dividends'];
       expect(result['success'], isTrue);
       expect(divi, isA<Map<String, dynamic>>());

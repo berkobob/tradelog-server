@@ -4,9 +4,10 @@ import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:server/controllers/log_controller.dart';
+import 'package:server/controllers/controller.dart';
 import 'package:server/services/database_service.dart';
-import 'package:server/view/server.dart';
+import 'package:server/services/mongodb.dart';
+import 'package:server/view/view.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
@@ -14,14 +15,16 @@ main() {
   // Server server = Server()..start();
 
   setUpAll(() async {
+    final controller = Controller();
     GetIt.I.registerSingletonAsync<DatabaseService>(
-        () async => await DatabaseService(database: "testdb").open());
-    GetIt.I.registerSingletonAsync<Server>(() async => await Server().start());
-    GetIt.I.registerSingleton<LogController>(LogController());
+        () async => await MongoDB(database: "testdb").open());
+    GetIt.I.registerSingletonAsync<View>(
+        () async => await View(controller: controller).start());
+    GetIt.I.registerSingleton<Controller>(controller);
     await GetIt.I.allReady();
   });
 
-  tearDownAll(() async => await GetIt.I.get<Server>().close());
+  tearDownAll(() async => await GetIt.I.get<View>().close());
 
   test('Expect the server to be up and running', () async {
     final url = Uri.parse('http://localhost:3000/');

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:server/controllers/trade_controller.dart';
+import 'package:server/controllers/controller.dart';
 import 'package:server/models/trade.dart';
 import 'package:test/test.dart';
 
@@ -14,7 +14,7 @@ main() {
     late Trade trade;
 
     setUpAll(() async {
-      result = newTrade(validOptionTrade);
+      result = Controller().newTrade(validOptionTrade);
       print(result);
       trade = result['trade'];
     });
@@ -101,7 +101,7 @@ main() {
     late Map<String, dynamic> errors;
 
     setUpAll(() async {
-      result = newTrade({});
+      result = Controller().newTrade({});
       errors = result['errors'];
     });
     test('Expect the result to produce an error', () {
@@ -148,7 +148,7 @@ main() {
     late Map<String, dynamic> result;
     late Map<String, dynamic> errors;
     setUpAll(() async {
-      result = newTrade(errorTrade);
+      result = Controller().newTrade(errorTrade);
       errors = result['errors'];
     });
     test('Expect result to produce an error',
@@ -177,7 +177,7 @@ main() {
     late Map<String, dynamic> errors;
 
     setUpAll(() async {
-      result = newTrade(invalidOptionTrade);
+      result = Controller().newTrade(invalidOptionTrade);
       errors = result['errors'];
     });
 
@@ -197,7 +197,7 @@ main() {
     late Map<String, dynamic> errors;
 
     setUpAll(() async {
-      result = newTrade({'AssetClass': 'OPT'});
+      result = Controller().newTrade({'AssetClass': 'OPT'});
       errors = result['errors'];
     });
 
@@ -216,7 +216,7 @@ main() {
     Trade? trade;
 
     setUpAll(() async {
-      final result = newTrade(USStockTrade);
+      final result = Controller().newTrade(USStockTrade);
       print(result);
       trade = result['trade'];
     });

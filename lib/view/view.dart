@@ -1,37 +1,34 @@
 import 'dart:async';
 
 import 'package:alfred/alfred.dart';
-import 'package:dcli/dcli.dart';
+import 'package:logger/logger.dart';
 
-import 'routes/dividend_route.dart';
-import 'routes/portfolio_route.dart';
-import 'routes/position_route.dart';
-import 'routes/stock_route.dart';
-import 'routes/trade_route.dart';
-import '../constants.dart' as k;
+import '../controllers/controller.dart';
+import 'routes/routes.dart';
 
-class Server {
+class View {
   final app = Alfred(logLevel: LogType.info);
-  int port;
+  final Controller controller;
+  final int? port;
 
-  Server({this.port = k.port}) {
+  View({this.port = 3000, required this.controller}) {
     app.onNotFound = notFoundHandler;
     app.onInternalError = internalErrorHandler;
     app.all('*', cors(origin: '*'));
 
-    TradeRoute(app.route('trades'));
+    TradeRoute(app.route('trades'), trade: controller.trade);
     PositionRoute(app.route('positions'));
     StockRoute(app.route('stocks'));
     PortfolioRoute(app.route('portfolios'));
-    DividendRoute(app.route('dividends'));
+    DividendRoute(app.route('dividends'), dividend: controller.dividend);
 
     app.get('/', (req, res) => {'ok': true});
+    app.listen(port!);
   }
 
-  Future<Server> start() async {
-    await app.listen(port);
-    print('${DateTime.now()} - ${yellow('info')} '
-        '- listening on port ${green('$port', bold: true)}');
+  Future<View> start() async {
+    await app.listen(port!);
+    Logger().i('${DateTime.now()} - listening on port :$port');
     return this;
   }
 

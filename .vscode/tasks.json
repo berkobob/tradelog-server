@@ -20,7 +20,7 @@
                 "server_mongo-db:/data/db",
                 "--name",
                 "mongo",
-                "mongo:4.4"
+                "mongo:5"
             ],
             "problemMatcher": []
         }

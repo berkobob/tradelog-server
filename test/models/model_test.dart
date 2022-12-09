@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:server/services/database_service.dart';
+import 'package:server/services/mongodb.dart';
 import 'package:test/test.dart';
 
 import 'test.dart';
@@ -8,7 +9,7 @@ main() async {
   late DatabaseService db;
   setUpAll(() async {
     GetIt.I.registerSingletonAsync<DatabaseService>(
-        () async => await DatabaseService(database: "testdb").open());
+        () async => await MongoDB(database: "testdb").open());
     await GetIt.I.allReady();
     db = GetIt.I.get<DatabaseService>();
   });
@@ -38,7 +39,7 @@ main() async {
   test('Save a model to the database', () async {
     final test = Test(anInt: 4, aString: 'Create test');
     await test.save();
-    final result = await db.findById('tests', test.id);
+    final result = await db.findById('tests', test.id!);
     expect(result, isNotNull);
   });
 
@@ -46,7 +47,7 @@ main() async {
     final test = Test(anInt: 5, aString: 'Delete test');
     await test.save().then((test) => test.delete());
     // await test.delete();
-    final result = await db.findById('tests', test.id);
+    final result = await db.findById('tests', test.id!);
     expect(result, isNull);
   });
 
@@ -54,8 +55,8 @@ main() async {
     final test = Test(anInt: 6, aString: 'Update test');
     await test.save();
     test.aString = 'A new string';
-    test.save();
-    final result = await db.findById('tests', test.id);
+    await test.save();
+    final result = await db.findById('tests', test.id!);
     expect(result?['aString'], equals('A new string'));
     expect(test.aString, equals('A new string'));
   });

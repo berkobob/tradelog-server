@@ -1,14 +1,9 @@
 import 'package:alfred/alfred.dart';
-import 'package:get_it/get_it.dart';
 
-import '../../controllers/log_controller.dart';
-
-import '../../constants.dart';
-export '../../constants.dart';
+typedef Json = Map<String, dynamic>;
 
 abstract class BaseRoute {
   final NestedRoute _route;
-  final logController = GetIt.I.get<LogController>();
 
   BaseRoute(this._route) {
     _route.get('/', get);

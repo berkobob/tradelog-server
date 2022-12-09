@@ -1,12 +1,11 @@
-import 'mongodb.dart';
-import '../constants.dart';
-export '../constants.dart';
-export 'mongodb.dart' show ObjectId;
+typedef Json = Map<String, dynamic>;
 
 abstract class DatabaseService {
-  factory DatabaseService({url, database}) {
-    return MongoDB(url: url, database: database);
-  }
+  final String? _database;
+  final String? _url;
+  DatabaseService({database, url})
+      : _database = database,
+        _url = url;
   Future<DatabaseService> open();
   Future close();
   bool isConnected();
