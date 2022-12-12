@@ -1,3 +1,4 @@
 port: 8888
-database: dev
-databaseUrl: mongodb://localhost:27017/
+databaseName: dev
+localdatabaseUrl: mongodb://localhost:27017/
+databaseUrl: mongodb://itx:27017/

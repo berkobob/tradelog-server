@@ -10,9 +10,9 @@
             "type": "dart",
             "program": "bin/server.dart",
             "env": {
-                "databaseUrl": "mongodb://localhost:27017/",
-                "databaseName": "test",
-                "port": 4321
+                // "databaseUrl": "mongodb://localhost:27017/",
+                // "databaseName": "test",
+                // "port": 4321
             },
             "args": [
                 // "-p", "8080"

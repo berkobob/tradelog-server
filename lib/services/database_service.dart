@@ -1,11 +1,7 @@
 typedef Json = Map<String, dynamic>;
 
 abstract class DatabaseService {
-  final String? _database;
-  final String? _url;
-  DatabaseService({database, url})
-      : _database = database,
-        _url = url;
+  DatabaseService({database, url});
   Future<DatabaseService> open();
   Future close();
   bool isConnected();

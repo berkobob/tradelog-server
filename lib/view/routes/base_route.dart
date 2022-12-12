@@ -23,6 +23,8 @@ abstract class BaseRoute {
           query[key] = {r'$lt': num.parse(val.substring(1))};
         } else if (val[0] == '>') {
           query[key] = {r'$gt': num.parse(val.substring(1))};
+        } else if (val == 'null') {
+          query[key] = null;
         } else {
           query[key] = num.tryParse(val) ?? val;
         }
