@@ -22,3 +22,5 @@ SHORT       OPEN    CLOSE
   STOCK     infin   -infin
   CALL      infin   -infin  
   PUT       calc    -calc
+
+I'm hoping this will push to Docker
