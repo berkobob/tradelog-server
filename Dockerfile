@@ -1,10 +1,10 @@
 FROM dart:2.18 AS build
 
-ARG SSH_PRIVATE_KEY
-RUN mkdir /root/.ssh/
-RUN echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_ed25519
-RUN chmod 600 /root/.ssh/id_ed25519
-RUN ssh-keyscan github.com > /root/.ssh/known_hosts
+# ARG SSH_PRIVATE_KEY
+# RUN mkdir /root/.ssh/
+# RUN echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_ed25519
+# RUN chmod 600 /root/.ssh/id_ed25519
+# RUN ssh-keyscan github.com > /root/.ssh/known_hosts
 
 WORKDIR /app
 COPY pubspec.* ./

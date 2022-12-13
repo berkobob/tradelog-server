@@ -189,7 +189,7 @@ packages:
       path: "."
       ref: main
       resolved-ref: d875ad2b6ed54095d2a3496dead0854cf8ac825a
-      url: "git@github.com:berkobob/logger.git"
+      url: "https://github.com/berkobob/logger.git"
     source: git
     version: "1.0.0"
   logging:
