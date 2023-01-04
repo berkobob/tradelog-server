@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:logger/logger.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -53,6 +55,21 @@ class MongoDB implements DatabaseService {
 
   @override
   Future<List<Json>> find(String collection, Json query) async {
+    if (query.keys.contains('closed')) {
+      if (query.keys.contains('month')) {
+        query['closed'] = {
+          r'$gte': DateTime(query['closed'], query['month']),
+          r'$lt': DateTime(query['closed'], query['month'] + 1),
+        };
+        query.remove('month');
+      } else {
+        query['closed'] = {
+          r'$gte': DateTime(query['closed']),
+          r'$lt': DateTime(query['closed'] + 1),
+        };
+      }
+    }
+
     final coll = db.collection(collection);
     return await coll.find(query).toList();
   }
