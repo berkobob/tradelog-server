@@ -68,6 +68,10 @@ class MongoDB implements DatabaseService {
           r'$lt': DateTime(query['closed'] + 1),
         };
       }
+      if (collection == 'dividends') {
+        query['date'] = query['closed'];
+        query.remove('closed');
+      }
     }
 
     final coll = db.collection(collection);
